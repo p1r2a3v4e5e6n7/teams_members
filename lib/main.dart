@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(width: 4.0),
-      borderRadius: BorderRadius.all(Radius.circular(9.0)),
+      borderRadius: const BorderRadius.all(Radius.circular(9.0)),
     );
   }
 
@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Praveen Kumar",
                                             style: TextStyle(
                                                 fontSize: 18,
@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             width: 40,
                                           ),
                                           Row(
-                                            children: [
+                                            children: const [
                                               Text(
                                                 "Admin",
                                                 style: TextStyle(
@@ -151,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ],
                                       ),
                                       Row(
-                                        children: [
+                                        children: const [
                                           Text(
                                             "Active",
                                             style: TextStyle(
