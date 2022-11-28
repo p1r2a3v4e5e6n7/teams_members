@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teamsmembers/repository/teams_api.dart';
 
 import 'colors.dart';
 
@@ -36,6 +37,22 @@ class _MyHomePageState extends State<MyHomePage> {
       border: Border.all(width: 4.0),
       borderRadius: const BorderRadius.all(Radius.circular(9.0)),
     );
+  }
+
+  @override
+  void initState() {
+    // teamsFunctionn().then((value) {
+    //   if (value.message!.header!.statusCode == 200) {
+    //     setState(() {
+    //       musicList = value.message!.body!.trackList!;
+    //     });
+    //   }
+    //   setState(() {
+    //     isLoading = false;
+    //   });
+    // });
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
