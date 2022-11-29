@@ -15,18 +15,46 @@ class InviteMembers extends StatefulWidget {
 
 class _InviteMembersState extends State<InviteMembers> {
   final emailController = TextEditingController();
+  Validator validator = Validator();
+
   double width = 0.0;
   double height = 0.0;
+  double fixPadding = 10;
+
+  bool? values = true;
+  var memberName;
+
+  List<MembersList> itemsNumber = [];
+
   @override
   void initState() {
-    functonData();
+    functionData();
     // TODO: implement initState
     super.initState();
   }
 
-  var selectAddressType = 'Home';
-  var selectedState = 'Tamil Nadu';
-  var addressType = ["Home", "Office"];
+  functionData() {
+    MembersList n = MembersList();
+    n.name = 'Admin';
+    itemsNumber.add(n);
+
+    MembersList n1 = MembersList();
+    n1.name = 'Approver';
+    itemsNumber.add(n1);
+
+    MembersList n2 = MembersList();
+    n2.name = 'Prepare';
+    itemsNumber.add(n2);
+
+    MembersList n3 = MembersList();
+    n3.name = 'Viewer';
+    itemsNumber.add(n3);
+
+    MembersList n4 = MembersList();
+    n4.name = 'Employee';
+    itemsNumber.add(n4);
+  }
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -112,7 +140,6 @@ class _InviteMembersState extends State<InviteMembers> {
     );
   }
 
-  Validator validator = Validator();
   _widgetFunction() {
     return Form(
       key: validator.formkey,
@@ -174,7 +201,6 @@ class _InviteMembersState extends State<InviteMembers> {
     );
   }
 
-  double fixPadding = 10;
   continueButton() {
     return SizedBox(
       height: height / 17,
@@ -203,33 +229,6 @@ class _InviteMembersState extends State<InviteMembers> {
     );
   }
 
-  bool? Ative = false;
-  bool? values = true;
-
-  List<MembersList> itemsNumber = [];
-  functonData() {
-    MembersList n = MembersList();
-    n.name = 'Admin';
-    itemsNumber.add(n);
-
-    MembersList n1 = MembersList();
-    n1.name = 'Approver';
-    itemsNumber.add(n1);
-
-    MembersList n2 = MembersList();
-    n2.name = 'Prepare';
-    itemsNumber.add(n2);
-
-    MembersList n3 = MembersList();
-    n3.name = 'Viewer';
-    itemsNumber.add(n3);
-
-    MembersList n4 = MembersList();
-    n4.name = 'Employee';
-    itemsNumber.add(n4);
-  }
-
-  var memberName;
   dropDownValues(memberName) {
     return SizedBox(
       width: width / 1.0,
@@ -335,6 +334,22 @@ class _InviteMembersState extends State<InviteMembers> {
                                   onTap: () {
                                     setState(() {
                                       if (itemsNumber[index].isActive != true) {
+                                        for (int i = 0;
+                                            i < itemsNumber.length;
+                                            i++) {
+                                          for (int j = 0;
+                                              j < itemsNumber.length;
+                                              j++) {
+                                            if (i != j) {
+                                              if (itemsNumber[j].isActive) {
+                                                setState(() {
+                                                  itemsNumber[j].isActive =
+                                                      false;
+                                                });
+                                              }
+                                            }
+                                          }
+                                        }
                                         if (values == true) {
                                           itemsNumber[index].isActive = true;
                                         }
@@ -354,7 +369,7 @@ class _InviteMembersState extends State<InviteMembers> {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      "${item.name.toString()}",
+                                      item.name.toString(),
                                       style: TextStyle(
                                           fontSize: 17,
                                           color: verifyButtoncolor,
