@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:teamsmembers/main.dart';
 import 'package:teamsmembers/repository/teams_api.dart';
 import 'package:teamsmembers/repository/validator.dart';
@@ -25,6 +26,7 @@ class _InviteMembersState extends State<InviteMembers> {
   double fixPadding = 10;
 
   bool? values = true;
+  bool isLock = false;
   var memberName;
 
   List<MembersList> itemsNumber = [];
@@ -39,22 +41,38 @@ class _InviteMembersState extends State<InviteMembers> {
   bool? isLoading = false;
 
   apiFunction() async {
-    alertLoading.onLoading(context);
-    Result users = Result();
-    users.email = emailController.text;
-    users.role = 2;
-    await teamsFunction(users).then((value) {
-      if (value.status == 1) {
-        setState(() {
-          alertLoading.onStopping();
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => MyApp()));
-        });
-      }
-      alertLoading.onStopping();
-      print("faild");
-    });
-    alertLoading.onStopping();
+    _showTost("URL Faild");
+    if (!isLock) {
+      isLock = true;
+      Result users = Result();
+      users.email = emailController.text;
+      users.role = 2;
+      await teamsFunction(users).then((value) {
+        alertLoading.onLoading(context);
+        if (value.status == 1) {
+          setState(() {
+            alertLoading.onStopping();
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => MyApp()));
+          });
+        }
+
+        alertLoading.onStopping();
+      });
+
+      isLock = false;
+    }
+  }
+
+  _showTost(String? messages) {
+    return Fluttertoast.showToast(
+        msg: "$messages",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   functionData() {
