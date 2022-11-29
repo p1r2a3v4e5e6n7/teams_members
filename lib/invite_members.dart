@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:teamsmembers/main.dart';
 import 'package:teamsmembers/repository/validator.dart';
 
 import 'colors.dart';
+import 'models/members.dart';
 
 class InviteMembers extends StatefulWidget {
   const InviteMembers({Key? key}) : super(key: key);
@@ -15,8 +17,16 @@ class _InviteMembersState extends State<InviteMembers> {
   final emailController = TextEditingController();
   double width = 0.0;
   double height = 0.0;
+  @override
+  void initState() {
+    functonData();
+    // TODO: implement initState
+    super.initState();
+  }
 
+  var selectAddressType = 'Home';
   var selectedState = 'Tamil Nadu';
+  var addressType = ["Home", "Office"];
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -60,65 +70,7 @@ class _InviteMembersState extends State<InviteMembers> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  width: width / 1.0,
-                  height: height / 15.0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: hexblueColor,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: hexblueColor,
-                                  // color: grayLinear,
-                                ),
-                                child: Row(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Text(
-                                      "Admin",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: width / 1.5,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        bottomSheet();
-                                      },
-                                      child: const Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.grey,
-                                        size: 30,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                dropDownValues(memberName.toString()),
               ],
             ),
           ),
@@ -147,7 +99,9 @@ class _InviteMembersState extends State<InviteMembers> {
       children: [
         IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => MyApp()));
             },
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -252,23 +206,90 @@ class _InviteMembersState extends State<InviteMembers> {
   bool? Ative = false;
   bool? values = true;
 
-  var itemsNumber = [
-    'Admin',
-    'Approver',
-    'Prepare',
-    'Viewer',
-    'Employee',
-  ];
+  List<MembersList> itemsNumber = [];
   functonData() {
-    // for (var n in itemsNumber) {
-    //   n = 'Admin';
-    //   n = 'Approver';
-    //   n = 'Prepare';
-    //   n = 'Viewer';
-    //   n = 'Employee';
-    // }
-    itemsNumber.addAll([itemsNumber.toString()].toList());
-    print(itemsNumber);
+    MembersList n = MembersList();
+    n.name = 'Admin';
+    itemsNumber.add(n);
+
+    MembersList n1 = MembersList();
+    n1.name = 'Approver';
+    itemsNumber.add(n1);
+
+    MembersList n2 = MembersList();
+    n2.name = 'Prepare';
+    itemsNumber.add(n2);
+
+    MembersList n3 = MembersList();
+    n3.name = 'Viewer';
+    itemsNumber.add(n3);
+
+    MembersList n4 = MembersList();
+    n4.name = 'Employee';
+    itemsNumber.add(n4);
+  }
+
+  var memberName;
+  dropDownValues(memberName) {
+    return SizedBox(
+      width: width / 1.0,
+      height: height / 15.0,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7),
+          color: hexblueColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(0),
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: hexblueColor,
+                      // color: grayLinear,
+                    ),
+                    child: Row(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          " ${memberName.toString()}",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          width: width / 1.6,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            bottomSheet();
+                          },
+                          child: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.grey,
+                            size: 30,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   bottomSheet() {
@@ -295,183 +316,61 @@ class _InviteMembersState extends State<InviteMembers> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        SizedBox(
-                          width: width / 1.2,
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                functonData();
-                                if (itemsNumber.toString() == 'Admin') {
-                                  print("hi");
-                                }
-                                if (Ative != true) {
-                                  if (values == true) {
-                                    Ative = true;
-                                  }
-                                } else {
-                                  Ative = false;
-                                }
-                              });
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(fixPadding * 1.5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                // color: focuscolorotp,
-                                color: Ative == true
-                                    ? focuscolorotp
-                                    : hexblueColor,
-                                borderRadius: BorderRadius.circular(20),
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: itemsNumber.length,
+                        itemBuilder: (context, index) {
+                          var item = itemsNumber[index];
+                          memberName = itemsNumber[index].name.toString();
+                          return Column(
+                            children: [
+                              const SizedBox(
+                                width: 30,
                               ),
-                              child: Text(
-                                'Admin',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: verifyButtoncolor,
-                                    fontWeight: FontWeight.bold),
+                              SizedBox(
+                                width: width / 1.2,
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      if (itemsNumber[index].isActive != true) {
+                                        if (values == true) {
+                                          itemsNumber[index].isActive = true;
+                                        }
+                                      } else {
+                                        itemsNumber[index].isActive = false;
+                                      }
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(fixPadding * 1.5),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: itemsNumber[index].isActive
+                                          ? focuscolorotp
+                                          : hexblueColor,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      "${item.name.toString()}",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          color: verifyButtoncolor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          );
+                        }),
                     const SizedBox(
                       height: 20,
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        SizedBox(
-                          width: width / 1.2,
-                          child: InkWell(
-                            onTap: () {},
-                            child: Container(
-                              padding: EdgeInsets.all(fixPadding * 1.5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Ative == true
-                                    ? focuscolorotp
-                                    : hexblueColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                'Approver',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: verifyButtoncolor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        SizedBox(
-                          width: width / 1.2,
-                          child: InkWell(
-                            onTap: () {},
-                            child: Container(
-                              padding: EdgeInsets.all(fixPadding * 1.5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Ative == true
-                                    ? focuscolorotp
-                                    : hexblueColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                'Prepare',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: verifyButtoncolor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        SizedBox(
-                          width: width / 1.2,
-                          child: InkWell(
-                            onTap: () {},
-                            child: Container(
-                              padding: EdgeInsets.all(fixPadding * 1.5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Ative == true
-                                    ? focuscolorotp
-                                    : hexblueColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                'Viewer',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: verifyButtoncolor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        SizedBox(
-                          width: width / 1.2,
-                          child: InkWell(
-                            onTap: () {},
-                            child: Container(
-                              padding: EdgeInsets.all(fixPadding * 1.5),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Ative == true
-                                    ? focuscolorotp
-                                    : hexblueColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                'Employee',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: verifyButtoncolor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
