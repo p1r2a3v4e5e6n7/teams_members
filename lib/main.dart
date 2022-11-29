@@ -36,18 +36,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool? isLoading = false;
 
-  UserModel? users;
-
   @override
   void initState() {
-    // teamsFunction().then((value) {
-    //   if (value.status == 1) {
-    //     setState(() {
-    //       users!.result!.email = value.result!.email;
-    //       users!.result!.role = value.result!.role;
-    //     });
-    //   }
-    // });
     // TODO: implement initState
     super.initState();
   }

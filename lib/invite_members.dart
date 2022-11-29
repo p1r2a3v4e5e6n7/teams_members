@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:teamsmembers/main.dart';
+import 'package:teamsmembers/repository/teams_api.dart';
 import 'package:teamsmembers/repository/validator.dart';
 
 import 'colors.dart';
+import 'comman_widget/loading_widget.dart';
 import 'models/members.dart';
+import 'models/teams_list.dart';
 
 class InviteMembers extends StatefulWidget {
   const InviteMembers({Key? key}) : super(key: key);
@@ -13,6 +16,7 @@ class InviteMembers extends StatefulWidget {
 }
 
 class _InviteMembersState extends State<InviteMembers> {
+  LoadingAlertDialog alertLoading = LoadingAlertDialog();
   final emailController = TextEditingController();
   Validator validator = Validator();
 
@@ -30,6 +34,27 @@ class _InviteMembersState extends State<InviteMembers> {
     functionData();
     // TODO: implement initState
     super.initState();
+  }
+
+  bool? isLoading = false;
+
+  apiFunction() async {
+    alertLoading.onLoading(context);
+    Result users = Result();
+    users.email = emailController.text;
+    users.role = 2;
+    await teamsFunction(users).then((value) {
+      if (value.status == 1) {
+        setState(() {
+          alertLoading.onStopping();
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => MyApp()));
+        });
+      }
+      alertLoading.onStopping();
+      print("faild");
+    });
+    alertLoading.onStopping();
   }
 
   functionData() {
@@ -68,7 +93,7 @@ class _InviteMembersState extends State<InviteMembers> {
         body: SingleChildScrollView(
           physics: const ScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.only(left: 7, right: 7, top: 17),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 17),
             child: Column(
               children: [
                 const SizedBox(
@@ -208,6 +233,7 @@ class _InviteMembersState extends State<InviteMembers> {
         onTap: () {
           validator.validate();
           if (validator.validate()) {
+            apiFunction();
             FocusScope.of(context).unfocus();
           }
         },
@@ -237,50 +263,55 @@ class _InviteMembersState extends State<InviteMembers> {
           borderRadius: BorderRadius.circular(7),
           color: hexblueColor,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(0),
-          child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: hexblueColor,
-                      // color: grayLinear,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          memberName != "null"
-                              ? " ${memberName.toString()}"
-                              : "Admin",
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
+        child: InkWell(
+          onTap: () {
+            bottomSheet();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: hexblueColor,
+                        // color: grayLinear,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            memberName != "null"
+                                ? " ${memberName.toString()}"
+                                : "Admin",
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            bottomSheet();
-                          },
-                          child: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.grey,
-                            size: 30,
+                          InkWell(
+                            onTap: () {
+                              bottomSheet();
+                            },
+                            child: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: Colors.blue,
+                              size: 30,
+                            ),
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
