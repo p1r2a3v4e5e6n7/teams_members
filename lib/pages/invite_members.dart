@@ -1,13 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:teamsmembers/main.dart';
+import 'package:teamsmembers/pages/main.dart';
 import 'package:teamsmembers/repository/teams_api.dart';
 import 'package:teamsmembers/repository/validator.dart';
-
-import 'colors.dart';
-import 'comman_widget/loading_widget.dart';
-import 'models/members.dart';
-import 'models/teams_list.dart';
+import '../comman_widget/colors.dart';
+import '../comman_widget/loading_widget.dart';
+import '../models/members.dart';
+import '../models/teams_list.dart';
 
 class InviteMembers extends StatefulWidget {
   const InviteMembers({Key? key}) : super(key: key);
@@ -30,6 +31,31 @@ class _InviteMembersState extends State<InviteMembers> {
   var memberName;
 
   List<MembersList> itemsNumber = [];
+
+  int current = 0;
+  DateTime? currentBackPressTime;
+
+  onWillPop() {
+    DateTime now = DateTime.now();
+    if (current == 0) {
+      if (currentBackPressTime == null ||
+          now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+        currentBackPressTime = now;
+        Navigator.pop(context);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const MyApp()));
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      current = 0;
+      Navigator.pop(context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MyApp()));
+      return false;
+    }
+  }
 
   @override
   void initState() {
@@ -108,40 +134,49 @@ class _InviteMembersState extends State<InviteMembers> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          physics: const ScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 17),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                _titleFunction(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Invite",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 33,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                _widgetFunction(),
-                const SizedBox(
-                  height: 10,
-                ),
-                dropDownValues(memberName.toString()),
-              ],
+        body: WillPopScope(
+          onWillPop: () async {
+            bool backStatus = onWillPop();
+            if (backStatus) {
+              exit(0);
+            }
+            return false;
+          },
+          child: SingleChildScrollView(
+            physics: const ScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 17),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _titleFunction(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "Invite",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 33,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _widgetFunction(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  dropDownValues(memberName.toString()),
+                ],
+              ),
             ),
           ),
         ),

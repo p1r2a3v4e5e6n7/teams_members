@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:teamsmembers/repository/teams_api.dart';
 
-import 'colors.dart';
+import '../comman_widget/colors.dart';
+import '../models/teams_list.dart';
 import 'invite_members.dart';
-import 'models/teams_list.dart';
 
 void main() {
   runApp(const MyApp());
