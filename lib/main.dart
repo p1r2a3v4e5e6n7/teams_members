@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:teamsmembers/repository/teams_api.dart';
 
 import 'colors.dart';
+import 'invite_members.dart';
+import 'models/teams_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       // theme: ThemeData(primarySwatch: Colors.blueGrey),
@@ -32,24 +34,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  BoxDecoration myBoxDecoration() {
-    return BoxDecoration(
-      border: Border.all(width: 4.0),
-      borderRadius: const BorderRadius.all(Radius.circular(9.0)),
-    );
-  }
+  bool? isLoading = false;
+
+  UserModel? users;
 
   @override
   void initState() {
-    // teamsFunctionn().then((value) {
-    //   if (value.message!.header!.statusCode == 200) {
+    // teamsFunction().then((value) {
+    //   if (value.status == 1) {
     //     setState(() {
-    //       musicList = value.message!.body!.trackList!;
+    //       users!.result!.email = value.result!.email;
+    //       users!.result!.role = value.result!.role;
     //     });
     //   }
-    //   setState(() {
-    //     isLoading = false;
-    //   });
     // });
     // TODO: implement initState
     super.initState();
@@ -194,7 +191,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            // Navigator.pop(context);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => InviteMembers()));
+          },
           child: const Icon(Icons.add),
         ), // This trailing comma makes auto-formatting nicer for build methods.
       ),
