@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:teamsmembers/main.dart';
 import 'package:teamsmembers/repository/validator.dart';
@@ -253,21 +252,18 @@ class _InviteMembersState extends State<InviteMembers> {
                       // color: grayLinear,
                     ),
                     child: Row(
-                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const SizedBox(
-                          width: 6,
-                        ),
                         Text(
-                          " ${memberName.toString()}",
-                          style: TextStyle(
+                          memberName != "null"
+                              ? " ${memberName.toString()}"
+                              : "Admin",
+                          style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),
-                        ),
-                        SizedBox(
-                          width: width / 1.6,
                         ),
                         InkWell(
                           onTap: () {
@@ -352,6 +348,7 @@ class _InviteMembersState extends State<InviteMembers> {
                                         }
                                         if (values == true) {
                                           itemsNumber[index].isActive = true;
+                                          memberName = itemsNumber[index].name;
                                         }
                                       } else {
                                         itemsNumber[index].isActive = false;
