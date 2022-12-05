@@ -57,6 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  int _selectedIndex = 2;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -194,6 +202,49 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Colors.grey,
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.monetization_on_rounded,
+                color: Colors.grey,
+              ),
+              label: 'Loans',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.business,
+                color: Colors.grey,
+              ),
+              label: 'Contracts',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.groups_outlined,
+                color: Colors.grey,
+              ),
+              label: 'Teams',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.chat,
+                color: Colors.grey,
+              ),
+              label: 'Chat',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor:
+              _selectedIndex == _selectedIndex ? Colors.grey[800] : Colors.grey,
+          onTap: _onItemTapped,
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
