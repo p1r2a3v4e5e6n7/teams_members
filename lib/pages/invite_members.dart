@@ -60,6 +60,7 @@ class _InviteMembersState extends State<InviteMembers> {
   @override
   void initState() {
     functionData();
+
     // TODO: implement initState
     super.initState();
   }
@@ -73,7 +74,7 @@ class _InviteMembersState extends State<InviteMembers> {
       Result users = Result();
       users.email = emailController.text;
       users.role = 2;
-      await teamsFunction(users).then((value) {
+      await teamsPostFunction(users).then((value) {
         alertLoading.onLoading(context);
         if (value.status == 1) {
           setState(() {

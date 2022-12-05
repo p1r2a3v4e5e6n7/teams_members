@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teamsmembers/repository/teams_api.dart';
 
 import '../comman_widget/colors.dart';
+import '../comman_widget/loading_widget.dart';
 import '../models/teams_list.dart';
 import 'invite_members.dart';
 
@@ -34,12 +35,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  LoadingAlertDialog alertLoading = LoadingAlertDialog();
+
   bool? isLoading = false;
 
   @override
   void initState() {
+    getApiFunction();
     // TODO: implement initState
     super.initState();
+  }
+
+  getApiFunction() async {
+    await teamsGetFunction().then((value) {
+      alertLoading.onLoading(context);
+      if (value.status == 1) {
+        setState(() {});
+      }
+
+      alertLoading.onStopping();
+    });
   }
 
   @override
